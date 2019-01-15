@@ -1,0 +1,10 @@
+#use_frameworks!
+source 'git@git.2dfire.net:ios/cocoapods-spec.git'   # 私有库
+
+target 'Marathon_Example' do
+  pod 'Marathon', :path => '../'
+
+  target 'Marathon_Tests' do
+    inherit! :search_paths
+  end
+end
