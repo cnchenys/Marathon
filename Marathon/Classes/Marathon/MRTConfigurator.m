@@ -9,6 +9,15 @@
 
 
 @implementation MRTRequestSerializer
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _useJson = YES;
+    }
+    return self;
+}
+
 @end
 
 @implementation MRTResponseSerializer
@@ -22,6 +31,7 @@
     if (self) {
         _requestSerializer = [[MRTRequestSerializer alloc] init];
         _responseSerializer = [[MRTResponseSerializer alloc] init];
+        
     }
     return self;
 }

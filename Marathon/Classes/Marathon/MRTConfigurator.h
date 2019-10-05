@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
  默认请求超时时间, 默认为10s
  */
 @property (nonatomic, assign) NSTimeInterval timeoutInterval;
+
+@property (nonatomic, assign) BOOL useJson;
+
 @end
 
 

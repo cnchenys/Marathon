@@ -77,6 +77,9 @@
         [_pluginManager registerPlugin:plugin];
     }
     _sessionMgr = [[AFHTTPSessionManager alloc] initWithBaseURL:self.configurator.baseURL];
+    if (self.configurator.requestSerializer.useJson) {
+        _sessionMgr.requestSerializer = [AFJSONRequestSerializer serializer];
+    }
     _sessionMgr.requestSerializer.timeoutInterval = self.configurator.requestSerializer.timeoutInterval;
     _sessionMgr.responseSerializer.acceptableContentTypes = self.configurator.responseSerializer.acceptableContentTypes;
     
