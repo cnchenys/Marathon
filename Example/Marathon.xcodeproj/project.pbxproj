@@ -246,6 +246,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = TechSen;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = N78MUNYNJ7;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -256,6 +259,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -466,7 +470,7 @@
 			baseConfigurationReference = D4A023DC3CF8C94CE46B9187 /* Pods-Marathon_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = N78MUNYNJ7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Marathon/Marathon-Prefix.pch";
 				INFOPLIST_FILE = "Marathon/Marathon-Info.plist";
@@ -483,7 +487,7 @@
 			baseConfigurationReference = 7CBA6193DFB417D5911C2D22 /* Pods-Marathon_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = N78MUNYNJ7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Marathon/Marathon-Prefix.pch";
 				INFOPLIST_FILE = "Marathon/Marathon-Info.plist";

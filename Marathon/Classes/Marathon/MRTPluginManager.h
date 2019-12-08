@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 /**
- 用于处理返回结果, 比如取subObject、解密
+ 用于处理返回结果, 比如取subObject
  
  @param responseObject 返回结果, 若返回结果为一个NSError对象, 则会被作为错误响应
  @return 处理后的返回结果
@@ -69,8 +69,21 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  加密插件
  */
-@protocol MRTSecurityPlugin<MRTRequestPlugin>
+@protocol MRTSecurityPlugin<MRTRequestPlugin, MRTResponsePlugin>
 
+
+/// 用来最终加密请求参数
+/// @param request 请求对象
+- (id)encryptWithRequest:(id<MRTRequest>)request;
+
+
+/// 用来第一时间解密响应数据
+/// @param responseObject 请求对象
+- (id)decryptWithResponse:(id)responseObject;
+
+
+/// 用来计算某个签名参数
+/// @param request 请求对象
 - (NSDictionary *)signatureWithRequest:(id<MRTRequest>)request;
 
 @end

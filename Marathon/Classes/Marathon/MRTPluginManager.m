@@ -45,6 +45,9 @@
     }];
     
     [_responsePlugins sortedArrayUsingComparator:^NSComparisonResult(id<MRTPlugin> obj1, id<MRTPlugin> obj2) {
+        if ([obj1 conformsToProtocol:@protocol(MRTSecurityPlugin)]) {
+            return NSOrderedDescending;
+        }
         SEL sel = @selector(priority);
         NSInteger priority1 = [obj1 respondsToSelector:sel] ? [obj1 priority] : 1000;
         NSInteger priority2 = [obj2 respondsToSelector:sel] ? [obj2 priority] : 1000;
@@ -92,13 +95,18 @@
                 }
             }
         }
-
+        
         // 处理加密插件
         if ([plugin conformsToProtocol:@protocol(MRTSecurityPlugin)] && [plugin respondsToSelector:@selector(signatureWithRequest:)]) { // 加密插件处理
             if (!tmpRequest.parameters) {
                 tmpRequest.parameters = [NSMutableDictionary dictionary];
             }
             [tmpRequest.parameters addEntriesFromDictionary:[((id<MRTSecurityPlugin>)plugin) signatureWithRequest:tmpRequest] ?: @{}];
+        }
+        
+        if ([plugin conformsToProtocol:@protocol(MRTSecurityPlugin)] && [plugin respondsToSelector:@selector(encryptWithRequest:)]) { // 加密插件处理
+            id encryptedObj = [((id<MRTSecurityPlugin>)plugin) encryptWithRequest:request];
+            tmpRequest.parameters = encryptedObj;
         }
     }
     
@@ -110,19 +118,23 @@
         return request;
     }
     for (id<MRTResponsePlugin> plugin in _responsePlugins) {
-        if (request.response && [plugin conformsToProtocol:@protocol(MRTResponseHandlePlugin)]) {
-            id result;
-            if ([plugin respondsToSelector:@selector(handleResponseObject:)]) {
-                result = [((id<MRTResponseHandlePlugin>)plugin) handleResponseObject:request.response];
-            } else if (request.error && [plugin respondsToSelector:@selector(handleResponseError:)]) {
-                result = [((id<MRTResponseHandlePlugin>)plugin) handleResponseError:request.response];
-            }
-            if ([result isKindOfClass:[NSError class]]) {
-                request.error = result;
-                request.response = nil;
-            } else {
-                request.response = result;
-                request.error = nil;
+        if ([plugin conformsToProtocol:@protocol(MRTSecurityPlugin)] && [plugin respondsToSelector:@selector(decryptWithResponse:)]) {
+            request.response = [((id<MRTSecurityPlugin>)plugin) decryptWithResponse:request.response];
+        } else {
+            if (request.response && [plugin conformsToProtocol:@protocol(MRTResponseHandlePlugin)]) {
+                id result;
+                if ([plugin respondsToSelector:@selector(handleResponseObject:)]) {
+                    result = [((id<MRTResponseHandlePlugin>)plugin) handleResponseObject:request.response];
+                } else if (request.error && [plugin respondsToSelector:@selector(handleResponseError:)]) {
+                    result = [((id<MRTResponseHandlePlugin>)plugin) handleResponseError:request.response];
+                }
+                if ([result isKindOfClass:[NSError class]]) {
+                    request.error = result;
+                    request.response = nil;
+                } else {
+                    request.response = result;
+                    request.error = nil;
+                }
             }
         }
     }

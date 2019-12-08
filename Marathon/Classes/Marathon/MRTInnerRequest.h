@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval timeoutInterval;
 @property (nonatomic, copy) NSString *path;
 @property (nonatomic, copy) NSString *methed;
-@property (nonatomic, strong, nullable) NSMutableDictionary *parameters;
+@property (nonatomic, strong, nullable) id parameters;
 @property (nonatomic, strong, nullable) NSMutableDictionary<NSString *, NSString *> *headers;
 
 @property (nonatomic, assign) BOOL ignorePluginHandle;
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval timeoutInterval;
 @property (nonatomic, copy) NSString *path;
 @property (nonatomic, copy) NSString *methed;
-@property (nonatomic, strong, nullable) NSMutableDictionary *parameters;
+@property (nonatomic, strong, nullable) id parameters;
 @property (nonatomic, strong, nullable) NSMutableDictionary<NSString *, NSString *> *headers;
 
 @property (nonatomic, assign) BOOL ignorePluginHandle;
