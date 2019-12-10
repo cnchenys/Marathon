@@ -156,6 +156,7 @@
     NSURLSessionDataTask *task = [_sessionMgr dataTaskWithHTTPMethod:handledRequest.methed
                                                            URLString:url
                                                           parameters:handledRequest.parameters
+                                                       encryptedData:handledRequest.encryptedData
                                                      timeoutInterval:timeoutInterval
                                                              headers:handledRequest.headers
                                                       uploadProgress:nil
@@ -255,7 +256,8 @@
     [_sessionMgr POST:aPath
       timeoutInterval:handledRequest.timeoutInterval
               headers:handledRequest.headers
-           parameters:parameters
+           parameters:handledRequest.parameters
+        encryptedData:handledRequest.encryptedData
     constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
       [formData appendPartWithFileData:fileData name:name fileName:fileName mimeType:mimeType];
   }

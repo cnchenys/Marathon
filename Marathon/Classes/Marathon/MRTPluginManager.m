@@ -106,7 +106,7 @@
         
         if ([plugin conformsToProtocol:@protocol(MRTSecurityPlugin)] && [plugin respondsToSelector:@selector(encryptWithRequest:)]) { // 加密插件处理
             id encryptedObj = [((id<MRTSecurityPlugin>)plugin) encryptWithRequest:request];
-            tmpRequest.parameters = encryptedObj;
+            tmpRequest.encryptedData = encryptedObj;
         }
     }
     

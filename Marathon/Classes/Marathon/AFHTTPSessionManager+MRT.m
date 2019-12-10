@@ -11,6 +11,7 @@
 - (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method
                                        URLString:(NSString *)URLString
                                       parameters:(id)parameters
+                                   encryptedData:(id)encryptedData
                                  timeoutInterval:(NSTimeInterval)timeoutInterval
                                          headers:(NSDictionary <NSString *, NSString *>*)headers
                                   uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgress
@@ -18,8 +19,15 @@
                                          success:(void (^)(NSURLSessionDataTask *, id))success
                                          failure:(void (^)(NSURLSessionDataTask *, NSError *))failure {
     NSError *serializationError = nil;
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&serializationError];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:encryptedData ? nil : parameters error:&serializationError];
     
+    if (encryptedData) {
+        if ([encryptedData isKindOfClass:[NSData class]]) {
+            [request setHTTPBody:encryptedData];
+        } else if ([encryptedData isKindOfClass:[NSString class]]) {
+            [request setHTTPBody:[((NSString *)encryptedData) dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+    }
     request.timeoutInterval = timeoutInterval;
     
     [headers enumerateKeysAndObjectsUsingBlock:^(id field, id value, BOOL * __unused stop) {
@@ -61,12 +69,13 @@
                timeoutInterval:(NSTimeInterval)timeoutInterval
                        headers:(NSDictionary <NSString *, NSString *>*)headers
                     parameters:(id)parameters
+                 encryptedData:(id)encryptedData
      constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
                       progress:(nullable void (^)(NSProgress * _Nonnull))uploadProgress
                        success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                        failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure {
     NSError *serializationError = nil;
-    NSMutableURLRequest *request = [self.requestSerializer multipartFormRequestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters constructingBodyWithBlock:block error:&serializationError];
+    NSMutableURLRequest *request = [self.requestSerializer multipartFormRequestWithMethod:@"POST" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:encryptedData ? nil : parameters constructingBodyWithBlock:block error:&serializationError];
     
     request.timeoutInterval = timeoutInterval;
     

@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSURLSessionDataTask *)dataTaskWithHTTPMethod:(NSString *)method
                                        URLString:(NSString *)URLString
                                       parameters:(id)parameters
+                                   encryptedData:(id)encryptedData
                                  timeoutInterval:(NSTimeInterval)timeoutInterval
                                          headers:(NSDictionary <NSString *, NSString *>*)headers
                                   uploadProgress:(nullable void (^)(NSProgress *uploadProgress))uploadProgress
@@ -27,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
                timeoutInterval:(NSTimeInterval)timeoutInterval
                        headers:(NSDictionary <NSString *, NSString *>*)headers
                     parameters:(id)parameters
+                 encryptedData:(id)encryptedData
      constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
                       progress:(nullable void (^)(NSProgress * _Nonnull))uploadProgress
                        success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
