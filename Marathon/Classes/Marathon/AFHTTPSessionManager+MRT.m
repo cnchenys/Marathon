@@ -31,7 +31,7 @@
     request.timeoutInterval = timeoutInterval;
     
     [headers enumerateKeysAndObjectsUsingBlock:^(id field, id value, BOOL * __unused stop) {
-        if (![request valueForHTTPHeaderField:field]) {
+        if ([request valueForHTTPHeaderField:field]) {
             [request setValue:value forHTTPHeaderField:field];
         }
     }];
@@ -80,7 +80,7 @@
     request.timeoutInterval = timeoutInterval;
     
     [headers enumerateKeysAndObjectsUsingBlock:^(id field, id value, BOOL * __unused stop) {
-        if (![request valueForHTTPHeaderField:field]) {
+        if ([request valueForHTTPHeaderField:field]) {
             [request setValue:value forHTTPHeaderField:field];
         }
     }];
