@@ -22,6 +22,45 @@
     MRTConfigurator *_configurator;
 }
 
++ (AFHTTPResponseSerializer <AFURLResponseSerialization> *)responseSerializerWithType:(MRTResponseSerializeType)type {
+    AFHTTPResponseSerializer *serializer;
+    switch (type) {
+        case MRTResponseSerializeTypeJSON:
+            serializer = [AFJSONResponseSerializer serializer];
+            break;
+        case MRTResponseSerializeTypeHTTP:
+            serializer = [AFHTTPResponseSerializer serializer];
+            break;
+        case MRTResponseSerializeTypeXML:
+            serializer = [AFXMLParserResponseSerializer serializer];
+            break;
+        default:
+            break;
+    }
+    return serializer;
+}
+
+
++ (AFHTTPRequestSerializer <AFURLRequestSerialization> *)requestSerializerWithType:(MRTRequestSerializeType)type {
+    
+    AFHTTPRequestSerializer *serializer;
+    switch (type) {
+        case MRTRequestSerializeTypeHTTP:
+            serializer = [AFHTTPRequestSerializer serializer];
+            break;
+        case MRTRequestSerializeTypeJSON:
+            serializer = [AFJSONRequestSerializer serializer];
+            break;
+        case MRTRequestSerializeTypePropertyList:
+            serializer = [AFPropertyListRequestSerializer serializer];
+            break;
+        default:
+            break;
+    }
+    return serializer;
+}
+
+
 + (void)setReachabilityStatusChangeBlock:(MRTNetworkReachabilityStatusBlock)statusChangeBlock {
     [AFNetworkReachabilityManager.sharedManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (statusChangeBlock) {
@@ -77,16 +116,15 @@
         [_pluginManager registerPlugin:plugin];
     }
     _sessionMgr = [[AFHTTPSessionManager alloc] initWithBaseURL:self.configurator.baseURL];
-    if (self.configurator.requestSerializer.useJson) {
-        _sessionMgr.requestSerializer = [AFJSONRequestSerializer serializer];
-    }
+    _sessionMgr.requestSerializer = [self.class requestSerializerWithType: self.configurator.requestSerializer.serializeType];
     _sessionMgr.requestSerializer.timeoutInterval = self.configurator.requestSerializer.timeoutInterval;
+    
+    _sessionMgr.responseSerializer = [self.class responseSerializerWithType:self.configurator.responseSerializer.serializeType];
     _sessionMgr.responseSerializer.acceptableContentTypes = self.configurator.responseSerializer.acceptableContentTypes;
     
 }
 
 #pragma mark - Public Methods
-
 - (id<MRTCancelable>)asyncRequest:(id<MRTRequest>)request
                           success:(MRTRequestSuccessBlock)success
                           failure:(MRTRequestFailureBlock)failure {

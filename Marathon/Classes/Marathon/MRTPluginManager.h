@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  加密插件
  */
 @protocol MRTSecurityPlugin<MRTRequestPlugin, MRTResponsePlugin>
-
+@optional
 
 /// 用来最终加密请求参数
 /// @param request 请求对象

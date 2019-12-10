@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Marathon'
-  s.version          = '0.1.2'
+  s.version          = '0.1.3'
   s.summary          = '基于AFNetworking封装的离散网络请求库'
   s.description      = <<-DESC
                         Marathon是基于AFNetworking封装的离散网络请求库,可以以插件中间层的形式对请求进行处理

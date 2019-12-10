@@ -9,19 +9,33 @@
 #import "MRTPluginManager.h"
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, MRTRequestSerializeType) {
+    MRTRequestSerializeTypeHTTP,
+    MRTRequestSerializeTypeJSON,
+    MRTRequestSerializeTypePropertyList,
+};
+
+typedef NS_ENUM(NSInteger, MRTResponseSerializeType) {
+    MRTResponseSerializeTypeHTTP,
+    MRTResponseSerializeTypeJSON,
+    MRTResponseSerializeTypeXML,
+};
+
 @interface MRTRequestSerializer : NSObject
 /**
  默认请求超时时间, 默认为10s
  */
 @property (nonatomic, assign) NSTimeInterval timeoutInterval;
 
-@property (nonatomic, assign) BOOL useJson;
+@property (nonatomic, assign) MRTRequestSerializeType serializeType;
 
 @end
 
 
 @interface MRTResponseSerializer : NSObject
 @property (nonatomic, copy, nullable) NSSet <NSString *> *acceptableContentTypes;
+
+@property (nonatomic, assign) MRTResponseSerializeType serializeType;
 @end
 
 @interface MRTConfigurator : NSObject

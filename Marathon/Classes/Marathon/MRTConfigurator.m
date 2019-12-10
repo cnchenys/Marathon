@@ -13,14 +13,21 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _useJson = YES;
+        _serializeType = MRTRequestSerializeTypeJSON;
     }
     return self;
 }
-
 @end
 
 @implementation MRTResponseSerializer
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _serializeType = MRTResponseSerializeTypeJSON;
+    }
+    return self;
+}
 @end
 
 @implementation MRTConfigurator
