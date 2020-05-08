@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Marathon'
-  s.version          = '0.1.6'
+  s.version          = '0.1.7'
   s.summary          = '基于AFNetworking封装的离散网络请求库'
   s.description      = <<-DESC
                         Marathon是基于AFNetworking封装的离散网络请求库,可以以插件中间层的形式对请求进行处理
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'Core' do |ss|
       ss.source_files = 'Marathon/Classes/Marathon/**/*'
-      ss.dependency 'AFNetworking', '~> 3.2.1'
+      ss.dependency 'AFNetworking', '~> 4.0'
   end
   s.default_subspec = 'Core'
 end
